@@ -1,0 +1,77 @@
+import java.util.Scanner;
+class BankAccount 
+{
+    private double balance;
+    public BankAccount(double initialBalance) 
+    {
+        this.balance=initialBalance;
+    }
+    public double getBalance() 
+    {
+        return balance;
+    }
+    public void deposit(double amount) 
+    {
+        if(amount>0)
+        {
+            balance=balance+amount;
+            System.out.println("Deposited successfully...Current balance is:"+balance);
+        } 
+        else 
+        {
+            System.out.println("Invalid deposit amount...Please try again");
+        }
+    }
+    public void withdraw(double amount) 
+    {
+        if (amount>0&&amount<=balance) 
+        {
+            balance=balance-amount;
+            System.out.println("Withdrawal successful.Current balance is:"+balance);
+        } 
+        else 
+        {
+            System.out.println("Insufficient withdrawl amount");
+        }
+    }
+}
+public class ATMInterface 
+{
+    public static void main(String args[]) 
+    {
+        Scanner sc=new Scanner(System.in);
+        BankAccount ba=new BankAccount(100000.0); // Initial balance is 100000/-
+        while(true)
+        {
+            System.out.println("*****ATM Menu*****");
+            System.out.println("1.Check Balance");
+            System.out.println("2.Deposit");
+            System.out.println("3.Withdraw");
+            System.out.println("4.Exit");
+            System.out.print("Enter your choice: ");
+            int ch =sc.nextInt();
+            switch(ch)
+            {
+                case 1:
+                    System.out.println("Current balance: "+ba.getBalance());
+                    break;
+                case 2:
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount=sc.nextDouble();
+                    ba.deposit(depositAmount);
+                    break;
+                case 3:
+                    System.out.print("Enter withdrawal amount: ");
+                    double withdrawalAmount = sc.nextDouble();
+                    ba.withdraw(withdrawalAmount);
+                    break;
+                case 4:
+                    System.out.println("**Thank you!Visit again**");
+                    sc.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid option.Please try again.");
+            }
+        }
+    }
+}
