@@ -1,0 +1,271 @@
+import java.io.*;
+import java.util.*;
+class Student implements Serializable 
+{
+  private static final long serialVersionUID = 1L;
+  public int rollNumber;
+  public String name;
+  public String grade;
+  public Student(int rollNumber,String name, String grade) 
+  {
+    this.rollNumber = rollNumber;
+    this.name = name;
+    this.grade = grade;
+  }
+  public int getSRollNumber() 
+  {
+    return rollNumber;
+  }
+  public void setSRollNumber(int rollNumber)
+  {
+    this.rollNumber = rollNumber;
+  }
+  public String getSName() 
+  {
+	return name;
+  }
+  public void setSName(String name)
+  {
+	this.name = name;
+  }
+  public String getSGrade() 
+  {
+    return grade;
+  }
+  public void setSGrade(String grade) 
+  {
+    this.grade = grade;
+  }
+  public String toString() 
+  {
+    return "rollNumber='" + rollNumber + "', name=" + name + ", grade='" + grade + "'";
+  }
+}
+class StudentManagementSystem 
+{
+  public List<Student> st = new ArrayList<>();
+  private static final String filepath= "E:\\Jyothi\\JAVA\\Java_Programs\\src\\Interships\\StudentInfo.txt"; 
+  public StudentManagementSystem() 
+  {
+    loadFromFile();
+  }
+  public void addStudent(Student student) {
+	    List<Student> studentList = new ArrayList<>();
+	    studentList.add(student);
+	    st.addAll(studentList);
+	    saveToFile();
+	}
+
+  public void removeStudent(int rollNumber) 
+  {
+	    boolean removed = false;
+	    for (int i = 0; i < st.size(); i++) 
+	    {
+	        Student student = st.get(i);
+	        if (student.getSRollNumber() == rollNumber) 
+	        {
+	            st.remove(i);
+	            removed = true;
+	            break;
+	        }
+	    }
+	    if (removed) 
+	    {
+	        saveToFile();
+	        System.out.println("Student removed successfully.");
+	    } 
+	    else 
+	    {
+	        System.out.println("Student not found.");
+	    }
+	}
+  public Student searchStudent(int rollNumber) 
+  {
+	  for (int i = 0; i < st.size(); i++) 
+	  {
+		    Student student = st.get(i);
+		    if (student.getSRollNumber() == rollNumber)
+		    {
+		        return student;
+		    }
+		}
+		return null;
+  }
+
+  public void displayAllStudents() 
+  {
+	  boolean isPrinted;
+	  for (int i = 0; i < st.size(); i++) 
+	  {
+	      Student student = st.get(i);
+	      isPrinted = false;
+	      for (int j = 0; j < i; j++) 
+	      {
+	          if (st.get(j).getSRollNumber() == student.getSRollNumber()) 
+	          {
+	              isPrinted = true;
+	              break;
+	          }
+	      }
+	      if (!isPrinted) 
+	      {
+	          System.out.println(student);
+	      }	      
+	  }
+	  return;
+  }
+  public void updateStudent(int rollNumber, String newName, String newGrade) 
+  {
+    Student student = searchStudent(rollNumber);
+    if (student != null) 
+    {
+      student.setSName(newName);
+      student.setSGrade(newGrade);
+      saveToFile();
+      System.out.println("Student updated successfully.");
+    } 
+    else 
+    {
+      System.out.println("Student not found.");
+    }
+  }
+
+  private void saveToFile() 
+  {
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath))) 
+    {
+      oos.writeObject(st);
+    } catch (IOException e) 
+    {
+      System.err.println("Error saving student data: " + e.getMessage());
+    }
+  }
+  public void saveChangesToFile() 
+  {
+      saveToFile();
+  }
+  private void loadFromFile() 
+  {
+    File file=new File(filepath);
+    if (file.exists()) {
+      try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filepath))) 
+      {
+        st = (List<Student>) ois.readObject();
+      } 
+      catch (IOException | ClassNotFoundException e) 
+      {
+        System.out.println("Error loading student data: " + e.getMessage());
+        st = new ArrayList<>(); 
+      }
+    } else {
+      st = new ArrayList<>(); 
+    }
+  }
+}
+public class Task5 
+{
+	public static void main(String[] args) 
+	{
+	    StudentManagementSystem sms = new StudentManagementSystem();
+	    Scanner scanner = new Scanner(System.in);
+	    int rollNumber;
+	    while (true) 
+	    {
+	      System.out.println("1. Add Student");
+	      System.out.println("2. Remove Student");
+	      System.out.println("3. Search Student");
+	      System.out.println("4. Display All Students");
+	      System.out.println("5. Edit Student");
+	      System.out.println("6. Exit");
+	      System.out.print("Choose an option: ");
+	      int choice = scanner.nextInt();
+	      scanner.nextLine();
+	      switch (choice) 
+	      {
+	      case 1:
+	            System.out.print("Enter roll number: ");
+	            rollNumber = scanner.nextInt();
+	            scanner.nextLine();  
+	            System.out.print("Enter name: ");
+	            String name = scanner.nextLine();
+	            System.out.print("Enter grade: ");
+	            String grade = scanner.nextLine();
+	            Student student = new Student(rollNumber, name, grade);
+	            sms.addStudent(student);
+	            System.out.println("Student added successfully.");
+	            break;
+	        case 2:
+	            System.out.print("Enter roll number to remove: ");
+	            rollNumber = scanner.nextInt();
+	            sms.removeStudent(rollNumber);
+	            break;
+	        case 3:
+	            System.out.print("Enter roll number to search: ");
+	            rollNumber = scanner.nextInt();
+	            Student searchedStudent = sms.searchStudent(rollNumber);
+	            if (searchedStudent != null) 
+	            {
+	                System.out.println(searchedStudent);
+	            } 
+	            else 
+	            {
+	                System.out.println("Student not found.");
+	            }
+	            break;
+	       case 4:
+	          sms.displayAllStudents();
+	          break;
+	        case 5:
+	          System.out.print("Enter roll number to edit: ");
+	          rollNumber = scanner.nextInt();
+	          scanner.nextLine();
+	          Student studentToUpdate = sms.searchStudent(rollNumber);
+	          if (studentToUpdate != null) 
+	          {
+	            System.out.println("Select what you want to edit:");
+	            System.out.println("1. Name");
+	            System.out.println("2. Roll Number");
+	            System.out.println("3. Grade");
+	            System.out.print("Enter your choice: ");
+	            int editChoice = scanner.nextInt();
+	            scanner.nextLine();
+	            switch (editChoice) 
+	            {
+	              case 1:
+	                System.out.print("Enter new name: ");
+	                String newName = scanner.nextLine();
+	                studentToUpdate.setSName(newName);
+	                break;
+	              case 2:
+	                System.out.print("Enter new roll number: ");
+	                int newRollNumber = scanner.nextInt();
+	                studentToUpdate.setSRollNumber(newRollNumber);
+	                break;
+	              case 3:
+	                System.out.print("Enter new grade: ");
+	                String newGrade = scanner.nextLine();
+	                studentToUpdate.setSGrade(newGrade);
+	                break;
+	              default:
+	                System.out.println("Invalid choice.");
+	                break;
+	            }        
+	            sms.saveChangesToFile(); 
+	            System.out.println("Changes saved");
+	          } 
+	          else 
+	          {
+	            System.out.println("Student not found.");
+	          }
+	          break;
+	        case 6:
+	          System.out.println("Finally Completed");
+	          scanner.close();
+	          System.exit(0);
+	          break;
+	        default:
+	          System.out.println("Invalid choice.Please try again.");
+	      }
+	    }
+	  }
+}
