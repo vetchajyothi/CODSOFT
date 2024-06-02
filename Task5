@@ -8,9 +8,9 @@ class Student implements Serializable
   public String grade;
   public Student(int rollNumber,String name, String grade) 
   {
-    this.rollNumber = rollNumber;
-    this.name = name;
-    this.grade = grade;
+    this.rollNumber=rollNumber;
+    this.name=name;
+    this.grade=grade;
   }
   public int getSRollNumber() 
   {
@@ -18,7 +18,7 @@ class Student implements Serializable
   }
   public void setSRollNumber(int rollNumber)
   {
-    this.rollNumber = rollNumber;
+    this.rollNumber=rollNumber;
   }
   public String getSName() 
   {
@@ -26,7 +26,7 @@ class Student implements Serializable
   }
   public void setSName(String name)
   {
-	this.name = name;
+	this.name=name;
   }
   public String getSGrade() 
   {
@@ -34,7 +34,7 @@ class Student implements Serializable
   }
   public void setSGrade(String grade) 
   {
-    this.grade = grade;
+    this.grade=grade;
   }
   public String toString() 
   {
@@ -43,7 +43,7 @@ class Student implements Serializable
 }
 class StudentManagementSystem 
 {
-  public List<Student> st = new ArrayList<>();
+  public List<Student> st=new ArrayList<>();
   private static final String filepath= "E:\\Jyothi\\JAVA\\Java_Programs\\src\\Interships\\StudentInfo.txt"; 
   public StudentManagementSystem() 
   {
@@ -58,18 +58,18 @@ class StudentManagementSystem
 
   public void removeStudent(int rollNumber) 
   {
-	    boolean removed = false;
-	    for (int i = 0; i < st.size(); i++) 
+	    boolean removed=false;
+	    for (int i=0;i<st.size();i++) 
 	    {
-	        Student student = st.get(i);
-	        if (student.getSRollNumber() == rollNumber) 
+	        Student student=st.get(i);
+	        if (student.getSRollNumber()==rollNumber) 
 	        {
 	            st.remove(i);
-	            removed = true;
+	            removed=true;
 	            break;
 	        }
 	    }
-	    if (removed) 
+	    if(removed) 
 	    {
 	        saveToFile();
 	        System.out.println("Student removed successfully.");
@@ -81,10 +81,10 @@ class StudentManagementSystem
 	}
   public Student searchStudent(int rollNumber) 
   {
-	  for (int i = 0; i < st.size(); i++) 
+	  for (int i=0;i<st.size();i++) 
 	  {
-		    Student student = st.get(i);
-		    if (student.getSRollNumber() == rollNumber)
+		    Student student=st.get(i);
+		    if (student.getSRollNumber()==rollNumber)
 		    {
 		        return student;
 		    }
@@ -95,15 +95,15 @@ class StudentManagementSystem
   public void displayAllStudents() 
   {
 	  boolean isPrinted;
-	  for (int i = 0; i < st.size(); i++) 
+	  for (int i=0;i<st.size();i++) 
 	  {
-	      Student student = st.get(i);
-	      isPrinted = false;
-	      for (int j = 0; j < i; j++) 
+	      Student student=st.get(i);
+	      isPrinted=false;
+	      for (int j=0;j<i;j++) 
 	      {
-	          if (st.get(j).getSRollNumber() == student.getSRollNumber()) 
+	          if (st.get(j).getSRollNumber()==student.getSRollNumber()) 
 	          {
-	              isPrinted = true;
+	              isPrinted=true;
 	              break;
 	          }
 	      }
@@ -114,10 +114,10 @@ class StudentManagementSystem
 	  }
 	  return;
   }
-  public void updateStudent(int rollNumber, String newName, String newGrade) 
+  public void updateStudent(int rollNumber,String newName,String newGrade) 
   {
-    Student student = searchStudent(rollNumber);
-    if (student != null) 
+    Student student=searchStudent(rollNumber);
+    if (student!=null) 
     {
       student.setSName(newName);
       student.setSGrade(newGrade);
@@ -132,10 +132,11 @@ class StudentManagementSystem
 
   private void saveToFile() 
   {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath))) 
+    try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(filepath))) 
     {
       oos.writeObject(st);
-    } catch (IOException e) 
+    }
+    catch (IOException e) 
     {
       System.err.println("Error saving student data: " + e.getMessage());
     }
@@ -148,16 +149,17 @@ class StudentManagementSystem
   {
     File file=new File(filepath);
     if (file.exists()) {
-      try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filepath))) 
+      try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream(filepath))) 
       {
-        st = (List<Student>) ois.readObject();
+        st=(List<Student>)ois.readObject();
       } 
       catch (IOException | ClassNotFoundException e) 
       {
         System.out.println("Error loading student data: " + e.getMessage());
         st = new ArrayList<>(); 
       }
-    } else {
+    } 
+  else {
       st = new ArrayList<>(); 
     }
   }
@@ -166,10 +168,10 @@ public class Task5
 {
 	public static void main(String[] args) 
 	{
-	    StudentManagementSystem sms = new StudentManagementSystem();
-	    Scanner scanner = new Scanner(System.in);
+	    StudentManagementSystem sms=new StudentManagementSystem();
+	    Scanner scanner=new Scanner(System.in);
 	    int rollNumber;
-	    while (true) 
+	    while(true) 
 	    {
 	      System.out.println("1. Add Student");
 	      System.out.println("2. Remove Student");
@@ -178,32 +180,32 @@ public class Task5
 	      System.out.println("5. Edit Student");
 	      System.out.println("6. Exit");
 	      System.out.print("Choose an option: ");
-	      int choice = scanner.nextInt();
+	      int choice=scanner.nextInt();
 	      scanner.nextLine();
-	      switch (choice) 
+	      switch(choice) 
 	      {
 	      case 1:
 	            System.out.print("Enter roll number: ");
-	            rollNumber = scanner.nextInt();
+	            rollNumber=scanner.nextInt();
 	            scanner.nextLine();  
 	            System.out.print("Enter name: ");
-	            String name = scanner.nextLine();
+	            String name=scanner.nextLine();
 	            System.out.print("Enter grade: ");
-	            String grade = scanner.nextLine();
-	            Student student = new Student(rollNumber, name, grade);
+	            String grade=scanner.nextLine();
+	            Student student=new Student(rollNumber,name,grade);
 	            sms.addStudent(student);
 	            System.out.println("Student added successfully.");
 	            break;
 	        case 2:
 	            System.out.print("Enter roll number to remove: ");
-	            rollNumber = scanner.nextInt();
+	            rollNumber=scanner.nextInt();
 	            sms.removeStudent(rollNumber);
 	            break;
 	        case 3:
 	            System.out.print("Enter roll number to search: ");
-	            rollNumber = scanner.nextInt();
-	            Student searchedStudent = sms.searchStudent(rollNumber);
-	            if (searchedStudent != null) 
+	            rollNumber=scanner.nextInt();
+	            Student searchedStudent =sms.searchStudent(rollNumber);
+	            if (searchedStudent!=null) 
 	            {
 	                System.out.println(searchedStudent);
 	            } 
@@ -217,33 +219,33 @@ public class Task5
 	          break;
 	        case 5:
 	          System.out.print("Enter roll number to edit: ");
-	          rollNumber = scanner.nextInt();
+	          rollNumber=scanner.nextInt();
 	          scanner.nextLine();
-	          Student studentToUpdate = sms.searchStudent(rollNumber);
-	          if (studentToUpdate != null) 
+	          Student studentToUpdate=sms.searchStudent(rollNumber);
+	          if (studentToUpdate!=null) 
 	          {
 	            System.out.println("Select what you want to edit:");
 	            System.out.println("1. Name");
 	            System.out.println("2. Roll Number");
 	            System.out.println("3. Grade");
 	            System.out.print("Enter your choice: ");
-	            int editChoice = scanner.nextInt();
+	            int editChoice=scanner.nextInt();
 	            scanner.nextLine();
 	            switch (editChoice) 
 	            {
 	              case 1:
-	                System.out.print("Enter new name: ");
-	                String newName = scanner.nextLine();
+	                System.out.print("Enter the new name: ");
+	                String newName=scanner.nextLine();
 	                studentToUpdate.setSName(newName);
 	                break;
 	              case 2:
-	                System.out.print("Enter new roll number: ");
-	                int newRollNumber = scanner.nextInt();
+	                System.out.print("Enter the new roll number: ");
+	                int newRollNumber=scanner.nextInt();
 	                studentToUpdate.setSRollNumber(newRollNumber);
 	                break;
 	              case 3:
-	                System.out.print("Enter new grade: ");
-	                String newGrade = scanner.nextLine();
+	                System.out.print("Enter the new grade: ");
+	                String newGrade=scanner.nextLine();
 	                studentToUpdate.setSGrade(newGrade);
 	                break;
 	              default:
