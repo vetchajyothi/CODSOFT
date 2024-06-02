@@ -45,8 +45,8 @@ public class NumberGame
                 System.out.println("You lost the game.The number is: "+randomNumber);
             }
             System.out.print("Do you want to play again? (yes/no): ");
-            String playAgainInput = sc.next();
-            playAgain = playAgainInput.equals("yes");
+            String playAgainInput=sc.next();
+            playAgain=playAgainInput.equals("yes");
         }
         System.out.println("Thank you for playing Number Game!!!");
     }
