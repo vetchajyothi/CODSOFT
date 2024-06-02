@@ -49,7 +49,7 @@ public class ATMInterface
             System.out.println("3.Withdraw");
             System.out.println("4.Exit");
             System.out.print("Enter your choice: ");
-            int ch =sc.nextInt();
+            int ch=sc.nextInt();
             switch(ch)
             {
                 case 1:
@@ -62,7 +62,7 @@ public class ATMInterface
                     break;
                 case 3:
                     System.out.print("Enter withdrawal amount: ");
-                    double withdrawalAmount = sc.nextDouble();
+                    double withdrawalAmount=sc.nextDouble();
                     ba.withdraw(withdrawalAmount);
                     break;
                 case 4:
